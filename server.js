@@ -1,3 +1,8 @@
+//used activities from hw 12 for references and help with code: 
+// greatBay and iceCreamCRUD. I did google some things but I 
+// can't remember if I used any of it in my code, will try to 
+//be bettter about referencing it in the future.
+
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
