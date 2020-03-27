@@ -75,22 +75,22 @@ function viewEmployees() {
 function addDepartment() {
   inquirer.prompt([
     {
-      type: "input",
       name: "newDepartment",
+      type: "input",
       message: "would you like to add a new departmnet?",
     },
     {
-      type: "what is the name of your new department?",
       name: "department",
+      type: "input",
       message: "what is the name of your new department?"
     },
     {
-      type: "number",
       name: "departmentNumber",
+      type: "input",
       message: "what is your new department's ID number?"
     }
       ]).then(function(answer) {
-        const sqlQuery = "INSERT INTO department SET (department,departmentID) VALUES";
+        const query = "INSERT INTO department SET (department,departmentID) VALUES";
         connection.query(query, [answer.department, answer.departmentNumber], 
           function(err, res) {
           console.log("new department added");
@@ -136,11 +136,10 @@ function addRole() {
 function addEmployee() {
   inquirer.prompt([
     {
-      name: "new employee",
+      name: "newEmployee",
       type: "input",
       message: "would you like to add a new employee?"
     },
-
     {
       name: "first_name",
       type: "input",
@@ -163,7 +162,7 @@ function addEmployee() {
     }
   ]).then(function(answer) {
     const query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES";
-    connection.query(querry, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id],
+    connection.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id],
     function (err, res) {
       console.log("new employee added");
       start();
