@@ -53,8 +53,7 @@ function viewDepartment() {
 };
 
 function viewRoles() {
-  var query = "SELECT * FROM employee_DB.role;";
-  connection.query(query, function (err, res) {
+  connection.query("SELECT * FROM role", function (err, res) {
     if(err) throw err;
     console.log("\n");
     console.table(res);
@@ -63,8 +62,7 @@ function viewRoles() {
 };
 
 function viewEmployees() {
-  var query = "SELECT * FROM employee_DB.employees;";
-  connection.query(query, function(err, res) {
+  connection.query("SELECT * FROM employees", function(err, res) {
       if(err) return err;
       console.log("\n");
       console.table(res);
@@ -77,7 +75,7 @@ function addDepartment() {
     {
       name: "newDepartment",
       type: "input",
-      message: "would you like to add a new departmnet?",
+      message: "would you like to add a new department?",
     },
     {
       name: "department",
@@ -85,14 +83,19 @@ function addDepartment() {
       message: "what is the name of your new department?"
     },
     {
-      name: "departmentNumber",
+      name: "id",
       type: "input",
       message: "what is your new department's ID number?"
     }
       ]).then(function(answer) {
-        const query = "INSERT INTO department SET (department,departmentID) VALUES";
-        connection.query(query, [answer.department, answer.departmentNumber], 
+        var query = connection.query(
+          "INSERT INTO department SET ?",
+          {
+            name: answer.department,
+            id: answer.departmentNumber
+          },
           function(err, res) {
+            if (err) throw err;
           console.log("new department added");
           start();
           });
@@ -123,9 +126,15 @@ function addRole() {
       message: "what is this role's department id?"
     } 
   ]).then(function(answer) {
-    const query = "INSERT INTO role (title, salary, department_id) VALUES";
-    connection.query(query, [answer.role, answer.salary, answer.department_id],
+    var query = connection.query (
+      "INSERT INTO role SET ?",
+      {
+        title: answer.title,
+        salary: answer.salary,
+        department_id: answer.department_id
+      },
       function(err, res) {
+        if (err) throw err;
         console.log("new role added");
         start();
       });
@@ -153,23 +162,66 @@ function addEmployee() {
     {
       name: "role_id",
       type: "input",
-      message: "what is your new employee's role?"
+      message: "what is your employee's role ID number?"
     },
     {
       name: "manager_id",
       type: "input",
-      message: "what is the manager id of your new employee"
+      message: "what is your employee's manager's ID number"
     }
   ]).then(function(answer) {
-    const query = "INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES";
-    connection.query(query, [answer.first_name, answer.last_name, answer.role_id, answer.manager_id],
-    function (err, res) {
+    var query = connection.query(
+      "INSERT INTO employees SET ?",
+      {
+        first_name: answer.first_name,
+        last_name: answer.last_name,
+        role_id: answer.role_id,
+        manager_id: answer.manager_id
+      },
+      function(err, res) {
+        if (err) throw err;
       console.log("new employee added");
-      start();
+      updateEmployee();
     });
   });
 }
-    
-function quit() {
-  connection.end();
+
+function updateEmployee() {
+  inquirer.prompt([
+  {
+    name: "first_name",
+    type: "input",
+    message: "what is your employee's first name?"
+  },
+  {
+    name: "last_name",
+    type: "input",
+    message: "what is your employee's last name"
+  },
+  {
+    name: "role_id",
+    type: "input",
+    message: "what is your employee's role ID number?"
+  },
+  {
+    name: "manager_id",
+    type: "input",
+    message: "what is your employee's manager's ID number"
+  }
+]).then(function(answer) {
+  var query = connection.query(
+    "UPDATE employees SET ? WHERE ?",
+    {
+      first_name: answer.first_name,
+      last_name: answer.last_name,
+      role_id: answer.role_id,
+      manager_id: answer.manager_id
+    },
+    function(err, res) {
+      if (err) throw err;
+    console.log("new employee added");
+    start();
+  });
+});
 }
+
