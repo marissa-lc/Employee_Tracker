@@ -1,8 +1,8 @@
 {
   "name": "employee_tracker",
   "version": "1.0.0",
-  "description": "",
-  "main": "employee.js",
+  "description": "employee tracker database",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,13 +10,14 @@
     "type": "git",
     "url": "git+https://github.com/marissa-lc/Employee_Tracker.git"
   },
-  "author": "",
+  "author": "Rissa",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/marissa-lc/Employee_Tracker/issues"
   },
   "homepage": "https://github.com/marissa-lc/Employee_Tracker#readme",
   "dependencies": {
+    "console.table": "^0.10.0",
     "inquirer": "^7.1.0",
     "mysql": "^2.18.1"
   }
